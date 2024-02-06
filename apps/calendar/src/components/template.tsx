@@ -17,7 +17,7 @@ interface Props {
 
 export function Template({ template, param, as: tagName = 'div' }: Props) {
   const templates = useStore(templateSelector);
-  const templateFunc: Function = templates[template];
+  const templateFunc: Function = templates[template] as Function;
 
   if (isNil(templateFunc)) {
     return null;

@@ -98,6 +98,8 @@ export interface Template {
   popupDetailBody: (event: EventObjectWithDefaultValues) => TemplateReturnType;
   popupEdit: () => TemplateReturnType;
   popupDelete: () => TemplateReturnType;
+  swimlaneTitle: (swimlane: any) => TemplateReturnType;
+  [key: string]: ((args: any) => TemplateReturnType) | undefined;
 }
 
 export type TemplateConfig = Partial<Template>;

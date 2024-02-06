@@ -46,6 +46,10 @@ export const templates: Template = {
     return `#${model.title}`;
   },
 
+  swimlaneTitle(swimlane: any) {
+    return <span className={cls('left-content')}>{swimlane.label || swimlane.id}</span>;
+  },
+
   taskTitle() {
     return <span className={cls('left-content')}>Task</span>;
   },

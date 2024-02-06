@@ -27,6 +27,7 @@ interface Props {
   resizingWidth?: string | null;
   flat?: boolean;
   movingLeft?: number | null;
+  titleTemplate?: string | null;
 }
 
 function getMargins(flat: boolean) {
@@ -90,6 +91,7 @@ function getContainerStyle({
   movingLeft,
   eventHeight,
   headerHeight,
+  titleTemplate,
 }: Required<Props>) {
   const { top, left, width, model } = uiModel;
   const margins = getMargins(flat);
@@ -129,6 +131,7 @@ export function HorizontalEvent({
   headerHeight,
   resizingWidth = null,
   movingLeft = null,
+  titleTemplate = null,
 }: Props) {
   const { currentView } = useStore(viewSelector);
   const { useDetailPopup, isReadOnly: isReadOnlyCalendar } = useStore(optionsSelector);
@@ -236,6 +239,7 @@ export function HorizontalEvent({
     flat,
     movingLeft,
     resizingWidth,
+    titleTemplate,
   });
   const eventItemStyle = getEventItemStyle({
     uiModel,
@@ -273,7 +277,7 @@ export function HorizontalEvent({
           />
         ) : null}
         <span className={classNames.eventTitle}>
-          <Template template={uiModel.model.category} param={uiModel.model} />
+          <Template template={titleTemplate || uiModel.model.category} param={uiModel.model} />
         </span>
         {!shouldHideResizeHandler ? (
           <HorizontalEventResizeIcon onMouseDown={handleResizeStart} />

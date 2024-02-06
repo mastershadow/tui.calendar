@@ -58,6 +58,7 @@ Object {
     "popupStateFree": [Function],
     "popupUpdate": [Function],
     "startDatePlaceholder": [Function],
+    "swimlaneTitle": [Function],
     "task": [Function],
     "taskTitle": [Function],
     "time": [Function],

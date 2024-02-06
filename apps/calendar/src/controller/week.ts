@@ -240,34 +240,31 @@ export function findByDateRange(
   const uiModelColl = convertToUIModel(events.filter(filterFn));
 
   const group: Record<string, Collection<EventUIModel>> = uiModelColl.groupBy(filterByCategory);
+  const data = panels.reduce((acc, p) => {
+    acc[p.name] = [];
 
-  return panels.reduce<EventGroupMap>(
-    (acc, cur) => {
-      const { name, type } = cur;
+    return acc;
+  }, {} as EventGroupMap);
 
-      if (isNil(group[name])) {
-        return acc;
-      }
+  return panels.reduce<EventGroupMap>((acc, cur) => {
+    const { name, type } = cur;
 
-      return {
-        ...acc,
-        [name]:
-          type === 'daygrid'
-            ? getUIModelForAlldayView(start, end, group[name])
-            : getUIModelForTimeView(idsOfDay, {
-                start,
-                end,
-                uiModelTimeColl: group[name],
-                hourStart,
-                hourEnd,
-              }),
-      };
-    },
-    {
-      milestone: [],
-      task: [],
-      allday: [],
-      time: {},
+    if (isNil(group[name])) {
+      return acc;
     }
-  );
+
+    return {
+      ...acc,
+      [name]:
+        type === 'daygrid'
+          ? getUIModelForAlldayView(start, end, group[name])
+          : getUIModelForTimeView(idsOfDay, {
+              start,
+              end,
+              uiModelTimeColl: group[name],
+              hourStart,
+              hourEnd,
+            }),
+    };
+  }, data);
 }

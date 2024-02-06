@@ -258,7 +258,8 @@ export const getWeekViewEvents = (
   }: WeekOptions & {
     weekStartDate: TZDate;
     weekEndDate: TZDate;
-  }
+  },
+  otherDaygridPanels: string[] = []
 ): EventModelMap => {
   const panels: Panel[] = [
     {
@@ -281,7 +282,15 @@ export const getWeekViewEvents = (
       type: 'timegrid',
       show: true,
     },
+    ...otherDaygridPanels.map((p) => {
+      return {
+        name: p,
+        type: 'daygrid',
+        show: true,
+      } as Panel;
+    }),
   ];
+
   const eventModels = findByDateRangeForWeek(calendarData, {
     start: weekStartDate,
     end: weekEndDate,
@@ -293,24 +302,22 @@ export const getWeekViewEvents = (
     },
   });
 
-  return Object.keys(eventModels).reduce<EventModelMap>(
-    (acc, cur) => {
-      const events = eventModels[cur as keyof EventModelMap];
+  const data = panels.reduce((acc, p) => {
+    acc[p.name] = [];
 
-      return {
-        ...acc,
-        [cur]: Array.isArray(events)
-          ? getDayGridEventModels(events, row, narrowWeekend)
-          : getTimeGridEventModels(events),
-      };
-    },
-    {
-      milestone: [],
-      allday: [],
-      task: [],
-      time: [],
-    }
-  );
+    return acc;
+  }, {} as EventModelMap);
+
+  return Object.keys(eventModels).reduce<EventModelMap>((acc, cur) => {
+    const events = eventModels[cur as keyof EventModelMap];
+
+    return {
+      ...acc,
+      [cur]: Array.isArray(events)
+        ? getDayGridEventModels(events, row, narrowWeekend)
+        : getTimeGridEventModels(events),
+    };
+  }, data);
 };
 
 export function createDateMatrixOfMonth(

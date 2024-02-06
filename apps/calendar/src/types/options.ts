@@ -8,6 +8,13 @@ import type { ThemeState } from '@t/theme';
 
 export type EventView = 'allday' | 'time';
 export type TaskView = 'milestone' | 'task';
+export interface Swimlane {
+  id: string;
+  label: string;
+}
+export interface Swimlanes {
+  swimlanes: Swimlane[];
+}
 
 export interface CollapseDuplicateEventsOptions {
   getDuplicateEvents: (
@@ -28,7 +35,7 @@ export interface WeekOptions {
   hourStart?: number;
   hourEnd?: number;
   eventView?: boolean | EventView[];
-  taskView?: boolean | TaskView[];
+  taskView?: boolean | TaskView[] | Swimlanes;
   collapseDuplicateEvents?: boolean | Partial<CollapseDuplicateEventsOptions>;
 }
 

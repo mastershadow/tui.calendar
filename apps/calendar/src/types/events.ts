@@ -20,6 +20,7 @@ export type EventModelMap = {
   allday: EventUIModel[];
   task: EventUIModel[];
   time: EventUIModel[];
+  [key: string]: EventUIModel[];
 };
 
 export type EventGroupMap = Record<keyof EventModelMap, DayGridEventMatrix | TimeGridEventMatrix>;
@@ -34,7 +35,7 @@ export interface CalendarData {
   idsOfDay: IDS_OF_DAY;
 }
 
-export type EventCategory = 'milestone' | 'task' | 'allday' | 'time'; // | 'background';
+export type EventCategory = 'milestone' | 'task' | 'allday' | 'time' | string; // | 'background';
 
 export type EventState = 'Busy' | 'Free';
 
